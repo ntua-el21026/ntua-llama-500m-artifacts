@@ -20,7 +20,7 @@ Use for educational inspection and controlled evaluation after qualifying the en
 
 See the linked workflow/reproduction documentation for data/cache dependencies, source revision gaps and independent tokenizer/data/weight license review.
 
-Workflow: [Full repository](https://github.com/ntua-el21026/NTUA-Llama_500M_Nanotron_Full).
+Workflow: [training and evaluation repository](https://github.com/ntua-el21026/ntua-llama-500m-nanotron).
 
 ## Later byte verification
 

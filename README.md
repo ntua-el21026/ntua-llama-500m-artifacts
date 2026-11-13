@@ -1,62 +1,43 @@
-# NTUA-Llama-500M (Nanotron)
+# NTUA LLaMA-style 500M — companion artifacts
 
-Official repository for Team 12 project in the NTUA ECE course "Pattern Recognition" (Winter 2025-2026).
+Report, configurations and selected model-only checkpoints for the **Team 12** NTUA ECE Pattern Recognition project, Winter 2025–2026. The implementation and training/fine-tuning/evaluation workflows live in [ntua-llama-500m-nanotron](https://github.com/ntua-el21026/ntua-llama-500m-nanotron). These are two packages of one team project.
 
-## Project Scope
+The report credits **Evaggelos Asitzoglou, Panagiotis Avgerinos, Michail-Athanasios Peppas, Andreas Saounatsos and Giannis Chatzigeorgiadis**. Individual implementation responsibilities have not been reconstructed from the imported history.
 
-This project trains and evaluates a 500M-parameter LLaMA-style model with a staged curriculum:
+## Artifact index
 
-- Stage 1: base pretraining
-- Stage 2: high-quality code/math continuation
-- Stage 3: reasoning-oriented continuation
-- Stage 4: supervised fine-tuning (SFT)
+| Material | Location and role |
+| --- | --- |
+| Report | [Report.pdf](docs/Report.pdf) and [main.tex](docs/main.tex): preserved scientific narrative and source |
+| Main configurations | [config/](config/): Stage-1 pretraining, Stage-2 code/math continuation, Stage-3 reasoning continuation and Stage-4 SFT |
+| Pre-SFT export | [stage3_12000_modelonly/](weights/stage3_12000_modelonly/): selected Stage-3 step-12,000 model |
+| SFT export | [sft_stage3_smoltalk_run1_5000_modelonly/](weights/sft_stage3_smoltalk_run1_5000_modelonly/): selected step-5,000 model |
+| Provenance | [release-provenance.json](docs/release-provenance.json): retained report/config hashes, expected LFS inventory and unresolved runtime fields |
+| Qualification | [Model card](docs/MODEL_CARD.md) and [artifact verification](docs/ARTIFACT_VERIFICATION.md): result scope and historical checks |
 
-Evaluation follows a tiered protocol:
+The main architecture configuration declares 32 layers, hidden size 1024, intermediate size 2816, 16 attention heads, four key/value heads, tied embeddings and vocabulary size 128256. The project calls this a 500M model. The historical safetensors record counts 492,110,848 serialized tensor elements per checkpoint; serialized counts and nominal architecture descriptions should not be substituted for an independently executed parameter audit.
 
-- Tier 1: training health analytics
-- Tier 2: perplexity slices
-- Tier 3: conditional-likelihood multiple-choice QA
-- Tier 4 (Stage 4): SFT-native prompt behavior checks
+The [Stage-3 checkpoint metadata](weights/stage3_12000_modelonly/checkpoint_metadata.json) records step 12,000 and 3,145,728,000 stage-local consumed tokens. [SFT metadata](weights/sft_stage3_smoltalk_run1_5000_modelonly/checkpoint_metadata.json) records step 5,000 and 81,920,000 tokens. These counters do not resolve the report's overall curriculum-token total.
 
-## Repository Contents
-
-- `config/`: canonical training and SFT configurations for the reported pipeline:
-  `config_stage1.yaml`, `config_stage2.yaml`, `config_stage3.yaml`, `sft_stage3_smoltalk.yaml`.
-- `docs/`: paper sources and compiled report (`main.tex`, `Report.pdf`).
-- `weights/`: selected model-only checkpoint exports for reproducibility and comparison baselines:
-  `stage3_12000_modelonly`, `sft_stage3_smoltalk_run1_5000_modelonly`.
-
-## Reproducibility Note
-
-Full training checkpoints, dataset caches, and complete evaluation outputs are produced on Leonardo HPC storage and are not fully versioned in this repository. This repository keeps the canonical configs, report artifacts, and selected release-ready weights.
-
-## License
-
-Original contributions: MIT (see `LICENSE`), subject to the asset terms below.
-
-## Release role and status
-
-This is the compact artifact package for the [full workflow](https://github.com/ntua-el21026/NTUA-Llama_500M_Nanotron_Full). The report, four canonical configs and selected model-only exports describe the same Team 12 project, not a second experiment. Preserve this package while the Full LFS endpoint is repaired. Its role can become a secondary release/archive only after replacement access and hashes are verified.
-
-The team report credits Evaggelos Asitzoglou, Panagiotis Avgerinos, Michail-Athanasios Peppas, Andreas Saounatsos, and Giannis Chatzigeorgiadis. This is shared course work; no individual implementation-role allocation has been verified from the imported history.
-
-A 12 November 2026 audit obtained download actions for all 388 unique objects at this endpoint, totaling 1,968,528,560 logical bytes. Full reported missing objects for those OIDs. Preparation checked the local pointer inventory only. Server metadata does not establish successful transfer, tensor integrity or inference correctness.
-
-## Browsing and reproduction
+## Review without downloading weights
 
 ```bash
-GIT_LFS_SKIP_SMUDGE=1 git clone https://github.com/ntua-el21026/NTUA-Llama_500M_Nanotron.git
-cd NTUA-Llama_500M_Nanotron
+GIT_LFS_SKIP_SMUDGE=1 git clone https://github.com/ntua-el21026/ntua-llama-500m-artifacts.git
+cd ntua-llama-500m-artifacts
 ```
 
-This code-free package has no training entry point or reproducible Python environment. The model-only directories are Nanotron exports, not a promised ready-to-load Transformers model. Recover the exact framework revision, tensor files, tokenizer/chat template and runtime through the Full repository's [reproduction guide](https://github.com/ntua-el21026/NTUA-Llama_500M_Nanotron_Full/blob/main/docs/REPRODUCING.md). Verify pointer SHA-256 and size against downloaded objects in an authorized model environment. Never install a GPU stack simply to inspect this repository.
+The report, configuration and metadata are ordinary repository files. Safetensors files use Git LFS; the command above leaves small pointers in their place. Each export comprises 194 shards, for 388 unique objects and 1,968,528,560 logical payload bytes across both exports. Do not treat pointer files as loaded model tensors.
 
-Read the local [model card](docs/MODEL_CARD.md) and [release provenance](docs/release-provenance.json) before citing results. The report's 22B/23.13B token statements remain unresolved, task suites and character-normalized validation scoring limit comparisons, and retained SFT evidence includes 12% all-checks pass and 0% JSON validity on 50 prompts. No new model execution or benchmark accompanies this preparation.
+For authorized model use, obtain the required checkpoint's LFS objects with Git LFS in a suitable external model environment and verify SHA-256 and size against the pointers. The preserved [12 November 2026 record](docs/ARTIFACT_VERIFICATION.md) reports successful transfer and byte/serialization checks for all companion objects, alongside missing-object errors from the workflow repository's own endpoint. That historical record supersedes the earlier pointer-only observation in `release-provenance.json`; both are retained unchanged. This documentation update did not repeat object downloads or verify current server availability.
 
-## Asset terms
+## Reproduction boundaries
 
-MIT applies to original contributions within the authors' rights. The upstream tokenizer, datasets, framework code and model weights require distinct access/license provenance. The root notice does not establish a blanket license for those assets. The Meta Llama 3 tokenizer and custom SFT chat template must be recovered exactly; no source/model version or license is inferred from the repository name.
+This repository has **no training entry point or resolved Python environment**. Use the workflow repository's [reproduction guide](https://github.com/ntua-el21026/ntua-llama-500m-nanotron/blob/main/docs/REPRODUCING.md) for data preparation, stage configurations, Slurm execution and tiered evaluation. Full optimizer/scheduler checkpoints, training caches, all intermediate models and complete evaluation outputs are not included here. Model-only exports do not support full-state training resume.
 
-The [artifact verification record](docs/ARTIFACT_VERIFICATION.md) confirms the
-Compact checkpoint bytes and matching Full pointers, with explicit tokenizer,
-conversion, inference and licensing limits.
+These Nanotron shards are not a qualified Transformers `from_pretrained` directory. The exact custom SFT tokenizer/chat template is absent; the pretraining tokenizer revision and historical Nanotron/dependency pins are unresolved. The historical exporter uses RoPE/BOS/EOS settings that differ from retained configuration. Recover those inputs and resolve conversion semantics before inference.
+
+Read the [model card](docs/MODEL_CARD.md) before citing scores. The report's 22B/23.13B token statements remain inconsistent; task suites, splits and character-normalized QA scoring limit comparisons. Preserved SFT-native evidence includes 12% all-checks pass and 0% JSON validity on 50 prompts. Byte identity does not validate these numerical claims. No new training, inference or benchmark was run for this update.
+
+## Terms
+
+[MIT](LICENSE) applies to original contributions within the authors' rights. Framework code, tokenizers, datasets and weight redistribution each require their own provenance and terms. The root notice is not a blanket asset license. Historical paths, checkpoint identities, reports, configurations and verification records remain preserved.
