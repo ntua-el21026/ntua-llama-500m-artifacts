@@ -2,7 +2,7 @@
 
 Report, configurations and selected model-only checkpoints for the **Team 12** NTUA ECE Pattern Recognition project, Winter 2025–2026. The implementation and training/fine-tuning/evaluation workflows live in [ntua-llama-500m-nanotron](https://github.com/ntua-el21026/ntua-llama-500m-nanotron). These are two packages of one team project.
 
-The report credits **Evaggelos Asitzoglou, Panagiotis Avgerinos, Michail-Athanasios Peppas, Andreas Saounatsos and Giannis Chatzigeorgiadis**.
+The report credits **Evaggelos Asitzoglou, Panagiotis Avgerinos, Michail Athanasios Peppas, Andreas Saounatsos and Giannis Chatzigeorgiadis**.
 
 ## Artifact index
 
